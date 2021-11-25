@@ -21,4 +21,6 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 ###Some changes on readME
 
-###Commet for new branch
+###Sprint 1 - comment
+
+### Cambio de lh_dev_misc
