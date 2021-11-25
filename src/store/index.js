@@ -6,7 +6,11 @@ export default createStore({
   },
   mutations: {
     addItemsTo_hotSaleProducts(state, payload){
-      state.hotSaleProducts = payload 
+      // Lets show just 4 products in TopSellProduct Div
+      for(let i = 0; i < 4; i++){
+        state.hotSaleProducts.push(payload[i])
+      }
+      
     },
   },
   actions: {
