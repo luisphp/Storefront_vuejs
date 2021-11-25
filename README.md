@@ -24,3 +24,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 ### Sprint 1 - comment
 
 ### Cambio de lh_dev_misc
+
+### Inicio Sprint 2
