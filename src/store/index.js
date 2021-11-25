@@ -26,6 +26,9 @@ export default createStore({
       .catch(function (error) {
           // handle error
           console.log(error);
+
+          //Manejador especial de errores de HttpCallOut
+          console.log('Error on request')
       });
     }
   },
