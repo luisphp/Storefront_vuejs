@@ -20,6 +20,8 @@ export default createStore({
             commit('addItemsTo_hotSaleProducts', data)
           }
           console.log(response);
+
+          //Manejo especial de respuesta exitosa
       })
       .catch(function (error) {
           // handle error
