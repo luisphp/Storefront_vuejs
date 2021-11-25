@@ -20,3 +20,5 @@ See [Configuration Reference](https://cli.vuejs.org/config/).
 
 
 ###Some changes on readME
+
+###Sprint 1 - comment
