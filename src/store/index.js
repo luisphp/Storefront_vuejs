@@ -6,6 +6,8 @@ export default createStore({
   },
   mutations: {
     addItemsTo_hotSaleProducts(state, payload){
+      for(){
+      }
       state.hotSaleProducts = payload 
     },
   },
