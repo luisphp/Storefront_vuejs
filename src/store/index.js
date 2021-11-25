@@ -10,6 +10,7 @@ export default createStore({
       for(let i = 0; i < 4; i++){
         state.hotSaleProducts.push(payload[i])
       }
+      // Mi desarrollo destinado al sprint 3
       
     },
   },
