@@ -1,5 +1,5 @@
 <template>
-    <div class="col-md-12 col-sm-12 mt-2">
+    <div class="sticky-top col-md-12 col-sm-12 mt-2">
         <div class="container">
             <div class="row">
                 <!-- Categories -->

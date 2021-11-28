@@ -83,39 +83,111 @@
         <hr>
     </div>
     <div class="row" >
-        <!-- <div class="card col-md-3 m-4 bg-dark text-white" v-for="item in hotSaleProducts" key="item.id">
-            <img class="card-img-top p-0" :src=item.main_image alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">{{item.name}}</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div> -->
         <div class="col-md-3" v-for="item in hotSaleProducts" key="item.id">
             <div class="d-flex justify-content-center">
-                <div class="card col-md-10 m-3" >
+                <div class="card col-md-12 m-3" >
                     <img class="card-img-top" :src=item.main_image alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title">{{item.name}}</h5>
-                        <p class="card-text"><strong>${{item.price}}</strong></p>
-                        <p class="card-text"><del>$ {{ calculateDiscount(item.price, item.discount) }}</del></p> <span>
-                            {{item.discount}}%
-                        </span>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <p class="card-text"><strong>${{item.price}}</strong> <span>
+                            <del>$ {{item.price_original}}</del>
+                            </span> </p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="#" class="btn btn-success">+Cart</a>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="#" class="btn btn-primary">Details</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- <div class="col-md-4 bg-warning">
+    </div>
+</div>
+
+<!-- Favorite brands -->
+<div class="container mt-5">
+    <div class="">
+        <h3>Your favorite brands</h3>
+        <hr>
+    </div>
+    <div class="row" >
+        <div class="col-md-3">
             <div class="d-flex justify-content-center">
-                Tablets
+                <div class="card col-md-12 m-3" >
+                    <img alt="brand_logo" src="../assets/brand_logos/Asus_brand.png">
+                </div>
             </div>
         </div>
-        <div class="col-md-4 bg-secondary">
+        <div class="col-md-3">
             <div class="d-flex justify-content-center">
-                Tablets
+                <div class="card col-md-12 m-3" >
+                    <img alt="brand_logo" src="../assets/brand_logos/Sony_brand.png">
+                </div>
             </div>
-        </div> -->
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex justify-content-center">
+                <div class="card col-md-12 m-3" >
+                    <img alt="brand_logo" src="../assets/brand_logos/Xiaomi_brand.png">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Los mas reciente -->
+<div class="container mt-5 mb-5">
+    <div class="">
+        <h3>New in store</h3>
+        <hr>
+    </div>
+    <div class="row" >
+        <div class="col-md-3" v-for="item in recentProducts" key="item.id">
+            <div class="d-flex justify-content-center">
+                <div class="card col-md-12 m-3" >
+                    <img class="card-img-top" :src=item.main_image alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{item.name}}</h5>
+                        <p class="card-text"><strong>${{item.price}}</strong></p>
+                        <p class="card-text"><del>$ {{item.price_original}}</del></p>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <a href="#" class="btn btn-success">+Cart</a>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="#" class="btn btn-primary">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="bg-light">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4 mt-5">
+                <div class="d-flex justify-content-center">
+                    ¡Hey! get the latest news by our newsletter
+                </div>
+            </div>
+            <div class="col-md-4 mt-5">
+                <div class="d-flex justify-content-center">
+                    <input class="form-control form-control-sm" type="text" placeholder="Your email here">
+                </div>
+            </div>        
+            <div class="col-md-4 mt-5 mb-5">
+                <!-- <div class="d-flex justify-content-center"> -->
+                    <button class="btn btn-sm btn-primary">Notifiy Me!</button>
+                <!-- </div> -->
+            </div>        
+        </div>
     </div>
 </div>
 </template>
@@ -143,7 +215,7 @@ export default {
         }
     },
     computed: {
-        ...mapState(['hotSaleProducts'])
+        ...mapState(['hotSaleProducts', 'recentProducts'])
     }
 }
 </script>

@@ -2,16 +2,19 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    hotSaleProducts: []
+    hotSaleProducts: [],
+    recentProducts: []
   },
   mutations: {
     addItemsTo_hotSaleProducts(state, payload){
-      // Lets show just 4 products in TopSellProduct Div
+      // Lets show just 4 products in "TopSellProduct" section
       for(let i = 0; i < 4; i++){
         state.hotSaleProducts.push(payload[i])
       }
-      // Mi desarrollo destinado al sprint 3
-      
+      // Lets show just 4 products in "new in store" section
+      for(let i = 4; i < 8; i++){
+        state.recentProducts.push(payload[i])
+      }
     },
   },
   actions: {
