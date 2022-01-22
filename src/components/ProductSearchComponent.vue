@@ -1,14 +1,15 @@
 <template>
   <div class="container-fluid mt-3">
     <div class="container mt-3 mb-3">
-      Mostrando <strong>XXXXX-XXXX</strong> resultados para tu busqueda <strong>" xxxxxx "</strong>
+      Mostrando <strong>*******</strong> resultados para tu busqueda: <strong>" {{searchParameter}} "</strong>
+      <br>
     </div>
     <!-- Primeros Filtros -->
     <div class="container">
     <div class="row border border-primary rounded-pill p-2 mb-3">
       <div class="col-md-1">
         <div class="dropdown">
-          <a class="btn btn-sm  btn-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="btn btn-outline-secondary dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Brand
           </a>
 
@@ -35,10 +36,9 @@
       </div>
       <div class="col-md-1">
         <div class="dropdown">
-          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="btn btn-outline-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
             Price
           </a>
-
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
             <!-- <li><a class="dropdown-item" href="#">Action</a></li> -->
             <!-- <li><a class="dropdown-item" href="#">Another action</a></li> -->
@@ -58,7 +58,7 @@
       </div>
       <div class="col-md-2">
         <div class="dropdown">
-          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="btn btn-outline-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
             Shipping Type
           </a>
 
@@ -82,7 +82,7 @@
       </div>
       <div class="col-md-2">
         <div class="dropdown">
-          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="btn btn-outline-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
             Promotions
           </a>
 
@@ -98,7 +98,7 @@
       </div>
       <div class="col-md-2">
         <div class="dropdown">
-          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="btn btn-outline-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
             Condition
           </a>
           <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
@@ -121,7 +121,7 @@
       </div>
       <div class="col-md-2">
         <div class="dropdown">
-          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="btn btn-outline-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
             Sort By
           </a>
 
@@ -151,7 +151,7 @@
       </div>
       <div class="col-md-1">
         <div class="dropdown">
-          <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+          <a class="btn btn-outline-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
             View Type
           </a>
 
@@ -165,29 +165,54 @@
   </div>
 
   <!-- Section -->
-      <div class="row">
-        <!-- Parametros 2 -->
-          <div class="col-md-3">
-              <div class="d-flex justify-content-center bg-primary">
-                Search Parameter
-              </div>
-          </div>
+    <div class="container">
+        <div class="row">
+          <!-- Parametros 2 -->
+            <div class="col-md-3">
+                <div class="d-flex justify-content-center bg-primary">
+                  Search Parameter
+                </div>
+            </div>
 
-          <!-- Search Results -->
-          <div class="col-md-9">
-              <div class="d-flex justify-content-center bg-warning">
-                Product Search Result
-              </div>
-          </div>
-      </div>
+            <!-- Search Results -->
+            <div class="col-md-9">
+                <div class="d-flex justify-content-center bg-warning">
+                  Product Search Result:
+                  <!-- <br> -->
+                  <!-- SearchModule: {{desdeSearchModule}} -->
+                  <!-- <br> -->
+                  <!-- <button class="btn btn-primary" @click="actionShwoMessageMainStore">Cambio texto</button> -->
+                </div>
+            </div>
+        </div>    
+    </div>
   </div>
-
 </template>
 
 <script>
+import {mapState, mapMutations, mapActions} from 'vuex'
+
 export default {
   name: 'ProductSearchComponent',
+  data(){
+    return {
+      
+    }
+  },
+  created(){
+    
+  },
+  computed: {
+    //Forma en la que se mapea un state de un modulo en vuex
+    ...mapState('searchModule', ['desdeSearchModule']),
+    /// Los state del main store se mapean de forma convencional
+    ...mapState(['searchParameter'])
+  },
   methods: {
+    //Forma en la que se mapea un action de un modulo en vuex
+    ...mapActions('searchModule', ['actionCambiarNombre']),
+    //Forma en la que se mapea un action desde el Main-Store
+    ...mapActions(['actionShwoMessageMainStore']),
     showToggleMessage(){
       console.log('Toggle activate')
     }

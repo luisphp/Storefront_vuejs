@@ -18,7 +18,7 @@
                 </div>
                 <!-- Logo -->
                 <div class="col-md-1 col-sm-1 p-0 m-0">
-                    <div class="d-flex justify-content-center m-0 p-0 logo_font">
+                    <div class="d-flex justify-content-center m-0 p-0 logo_font" @click="goToHome()">
                         <!-- <img src="../assets/LogoMyStore.png" alt="" class="col-md-12 mt-1"> -->
                         MyStore
                     </div>
@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import { mapActions, mapMutations, mapState } from 'vuex'
 export default {
     name: 'StoreFrontBanner',
     data(){
@@ -79,14 +80,29 @@ export default {
             searchInput : ''
         }
     },
+    computed:{
+        
+    },
     methods: {
+        ...mapActions(['actionSetSearchParameter']),
+        ...mapMutations(['setSearchParameter']),
         goToSearch(){
             // this.$router.push({name:'SearchProducts', params: {searchInput}}); 
-            console.log('Buscas algo?', this.searchInput)
+            // console.log('Buscas algo?', this.searchInput)
             // named route
             // this.$router.push({ path: '/search'})
             // object
-            this.$router.push({ path: 'search' })
+
+            //setear la busqueda en el store    
+
+            //ejecutar el cambio de ruta si es que ya no se esta en ella
+            // this.actionSetSearchParameter(this.searchInput)
+            this.setSearchParameter(this.searchInput)
+            
+            this.$router.push({ name: 'SearchProducts'})
+        },
+        goToHome(){
+            this.$router.push({path: 'homestorefront'})
         }
     }
 }
@@ -98,5 +114,6 @@ export default {
 .logo_font{
     font-family: 'Playfair Display', serif;
     font-size: 23px;
+    cursor: pointer;
 }
 </style>
