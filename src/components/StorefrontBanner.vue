@@ -2,10 +2,17 @@
     <div class="sticky-top col-md-12 col-sm-12 mt-2">
         <div class="container">
             <div class="row">
+                <!-- Logo -->
+                <div class="col-md-1 col-sm-1 p-0 m-0 justify-content-center">
+                    <div class="d-flex justify-content-center m-0 p-0 logo_font" @click="goToHome()">
+                        <!-- <img src="../assets/LogoMyStore.png" alt="" class="col-md-12 mt-1"> -->
+                        MyStore
+                    </div>
+                </div>                
                 <!-- Categories -->
-                <div class="col-md-1 col-sm-1 p-0">
+                <div class="col-md-2 col-sm-1 p-0">
                     <div class="d-flex justify-content-center">
-                        <div class="col-md-1 d-flex justify-content-center">
+                        <div class="col-md-12 d-flex justify-content-center">
                             <button type="button" class="btn btn-sm btn-outline-success">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-tags" viewBox="0 0 16 16">
                                     <path d="M3 2v4.586l7 7L14.586 9l-7-7H3zM2 2a1 1 0 0 1 1-1h4.586a1 1 0 0 1 .707.293l7 7a1 1 0 0 1 0 1.414l-4.586 4.586a1 1 0 0 1-1.414 0l-7-7A1 1 0 0 1 2 6.586V2z"></path>
@@ -16,15 +23,8 @@
                         </div>
                     </div>
                 </div>
-                <!-- Logo -->
-                <div class="col-md-1 col-sm-1 p-0 m-0">
-                    <div class="d-flex justify-content-center m-0 p-0 logo_font" @click="goToHome()">
-                        <!-- <img src="../assets/LogoMyStore.png" alt="" class="col-md-12 mt-1"> -->
-                        MyStore
-                    </div>
-                </div>
                 <!-- Search -->
-                <div class="col-md-7 col-sm-7">
+                <div class="col-md-5 col-sm-6">
                     <div class="d-flex justify-content-center">
                         <div class="input-group input-group-sm">
                         <input type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" 
@@ -58,53 +58,64 @@
                 <!-- Cart -->
                 <div class="col-md-1 col-sm-1 p-0">
                     <div class="d-flex justify-content-center">
-                        <button type="button" class="btn btn-sm btn-primary">
+                        <button type="button" class="btn btn-sm btn-primary drop" 
+                        >
+                        
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-cart3" viewBox="0 0 16 16">
                         <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .49.598l-1 5a.5.5 0 0 1-.465.401l-9.397.472L4.415 11H13a.5.5 0 0 1 0 1H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5zM3.102 4l.84 4.479 9.144-.459L13.89 4H3.102zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4zm-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"></path>
                         </svg>
-                                        Cart
+                                        Cart <span v-if="cart.length > 0">( {{cartItemsQuantity}} )</span>
                                     </button>
                     </div>
                 </div>
             </div>                                    
         </div>
     </div>
+    <div v-show="showCartElements">
+        <mini-cart-component></mini-cart-component>
+    </div>
 </template>
 
 <script>
 import { mapActions, mapMutations, mapState } from 'vuex'
+import miniCartComponent from '../components/miniCartComponent.vue'
 export default {
     name: 'StoreFrontBanner',
     data(){
         return{
-            searchInput : ''
+            searchInput : '',
+            showCartElements: false
         }
     },
     computed:{
-        
+        ...mapState(['cart']),
+        cartItemsQuantity(){
+            var cartItemsQuantity = 0
+            this.cart.forEach(item => {
+                cartItemsQuantity = cartItemsQuantity + item.quantity
+            });
+
+            return cartItemsQuantity
+        }
     },
     methods: {
         ...mapActions(['actionSetSearchParameter']),
         ...mapMutations(['setSearchParameter']),
         goToSearch(){
-            // this.$router.push({name:'SearchProducts', params: {searchInput}}); 
-            // console.log('Buscas algo?', this.searchInput)
-            // named route
-            // this.$router.push({ path: '/search'})
-            // object
-
-            //setear la busqueda en el store    
-
-            //ejecutar el cambio de ruta si es que ya no se esta en ella
-            // this.actionSetSearchParameter(this.searchInput)
-            this.setSearchParameter(this.searchInput)
-            
-            this.$router.push({ name: 'SearchProducts'})
+            this.setSearchParameter(this.searchInput)            
+            this.$router.push({name: 'SearchProducts'})
         },
         goToHome(){
-            this.$router.push({path: 'homestorefront'})
+            this.$router.push({name: 'HomeStorefront'})
+        },
+        makeLog(){
+            console.log('Mouse in:')
         }
+    },
+    components:{
+        miniCartComponent
     }
+
 }
 </script>
 
