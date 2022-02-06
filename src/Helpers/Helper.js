@@ -1,41 +1,37 @@
-import { mapActions, mapMutations, mapState } from 'vuex'
-import store from './../store'
 
-export async function RenewCreentials_Salesforce(){
+// get o renew a Salesforce Credential
+export async function getSalesforceCredential(){
 
-    var clientCredentials = store.getters.clientCredentials
-
-    var ServerResponse = ''
+    var credencialesDeSalesforce = {}
+    
     await axios.get('http://localhost:5000/api/salesforceConnection')
     .then(function (response) {
-        console.log(response);
-        clientCredentials = response.data
-        ServerResponse = response.data
-
-        
+        credencialesDeSalesforce = response.data
     })
     .catch(function (error) {
-        console.log('Error al ejecutar el request:', error);
+        console.log('Error al ejecutar el request[auth]:', error.data);
     })
-    return ServerResponse
+    return credencialesDeSalesforce
 }
 
-export async function getAppProduct_Salesforce(){
+// get All Products Active from Salesforce
+export async function getAllSalesforceProducts(){
 
-    var ServerResponse = ''
-    // Make a request for a user with a given ID
-    await axios.get('http://localhost:5000/api/salesforceConnection')
+    // ***Request token to node -> salesforce ***
+    // *    const params = new URLSearchParams();
+    // *    var access_token = await getSalesforceCredential().then(function(x) { return x.credencial.access_token} )
+    // *    params.append('access_token', access_token);
+    // ***no necesary for this moment ***
+
+    var AllActiveProducts = []
+
+    // await axios.post('http://localhost:5000/api/getAllSalesforceProducts',params)
+    await axios.post('http://localhost:5000/api/getAllSalesforceProducts')
     .then(function (response) {
-        // handle success
-        console.log(response);
-
-        ServerResponse = response.data
+        AllActiveProducts = response.data.AllProducts
     })
     .catch(function (error) {
-        // handle error
-        console.log('Error al ejecutar el request:', error);
+        console.log('Error al ejecutar el request[getProducts]:', error);
     })
-
-    return ServerResponse
-
+    return AllActiveProducts
 }

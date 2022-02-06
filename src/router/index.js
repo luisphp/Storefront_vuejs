@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
 import HomeStoreFront from '../views/HomeStoreFront.vue'
 import ProductSearch from '../views/ProductSearch.vue'
+import ProductDetails from '../views/ProductDetails.vue'
 
 const routes = [
   {
@@ -20,6 +21,11 @@ const routes = [
     component: ProductSearch
   },
   {
+    path: '/productDetails/:itemId?',
+    name: 'ProductDetails',
+    component: ProductDetails
+  },
+  {
     path: '/about',
     name: 'About',
     // route level code-splitting
@@ -31,6 +37,7 @@ const routes = [
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
+  mode: 'history',
   routes
 })
 
