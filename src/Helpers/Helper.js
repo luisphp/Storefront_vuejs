@@ -21,7 +21,7 @@ export async function getAllSalesforceProducts(){
     // *    const params = new URLSearchParams();
     // *    var access_token = await getSalesforceCredential().then(function(x) { return x.credencial.access_token} )
     // *    params.append('access_token', access_token);
-    // ***no necesary for this moment ***
+    // ***not necesary for this moment ***
 
     var AllActiveProducts = []
 
@@ -34,4 +34,30 @@ export async function getAllSalesforceProducts(){
         console.log('Error al ejecutar el request[getProducts]:', error);
     })
     return AllActiveProducts
+}
+
+// place new Order into Salesforce
+export async function postNewSalesforceOrder( orderItems ){
+
+    var postOrderResult = []
+
+    var data = {}
+
+    const headers = {
+        'Content-Type': 'application/json'
+    }
+
+    // await axios.post('http://localhost:5000/api/getAllSalesforceProducts',params)
+    await axios.post('http://localhost:5000/api/postNewSalesforceOrder', data , {
+        headers : headers
+    })
+    .then(function (response) {
+        postOrderResult = response.data
+    })
+    .catch(function (error) {
+        postOrderResult = error
+        console.log('Error al ejecutar el request[getProducts]:', error);
+    })
+
+    return postOrderResult = []
 }

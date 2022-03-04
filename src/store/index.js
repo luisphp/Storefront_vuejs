@@ -41,7 +41,6 @@ export default createStore({
       state.selectedItem = payload
     },
     mutationAddItemToCart(state, payload){
-
       var productAlreadyAdded = false
       state.cart.forEach(item => {
         if(item.Id == payload.Id){
@@ -49,11 +48,24 @@ export default createStore({
           productAlreadyAdded = true
         }
       })
-
       if(!productAlreadyAdded){
         state.cart.push(payload)
       }
-      
+    },
+    mutationUpdateCartItem(state, payload){
+      var productAlreadyAdded = false
+      state.cart.forEach(item => {
+        if(item.Id == payload.Id){
+          item.quantity = payload.quantity
+          productAlreadyAdded = true
+        }
+      })
+      if(!productAlreadyAdded){
+        state.cart.push(payload)
+      }
+    },
+    removeItemFromCart(state, payload){
+      state.cart = state.cart.filter(item => item.Id !== payload.Id)
     }
   },
   actions: {
