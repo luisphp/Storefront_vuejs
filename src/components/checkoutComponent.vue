@@ -137,17 +137,30 @@
                                     >Bank Transfer</a>
                                 </li>                        
                             </ul>
-                            <div class="col-md-12" v-if="paymentMethodSelected == 'CreditCard'">
-                                Credit Card Component here!
+                            <div class="col-md-12 mb-5" v-if="paymentMethodSelected == 'CreditCard'">
+
+                                <div class="row mt-5">
+                                    <div class="col-md-6">
+                                        <input id="ccn" type="tel" inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="19" placeholder="Your credit card number here"  class="form-control">
+                                    </div>
+                                    <div class="col-md-2">
+                                        <input type="number" maxlength="4" class="form-control" placeholder="cvv">
+                                    </div>
+                                    <div class="col-md-4">
+                                        <input type="month" id="start" name="start" min="2022-03" value="2022-03" class="form-control">
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-12" v-if="paymentMethodSelected == 'COD'">
-                                Cash On Delivery Component Here
+                                
+                                <button class="btn btn-primary btn-large mb-5 mt-5">I'll pay when i reive it!</button>
+
                             </div>
                             <div class="col-md-12" v-if="paymentMethodSelected == 'paypal'">
-                                Paypal component here
+                                <p> Coming soon you'll have Paypal available! </p> 
                             </div>
                             <div class="col-md-12" v-if="paymentMethodSelected == 'bankTransfer'">
-                                Bank Transfer
+                                <p> Coming soon you'll have BankTransfer available! </p>
                             </div>                                                        
                         </div>
                     </div>
