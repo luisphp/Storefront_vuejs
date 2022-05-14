@@ -37,14 +37,15 @@ export async function getAllSalesforceProducts(){
 }
 
 // place new Order into Salesforce
-export async function postNewSalesforceOrder( orderItems ){
+export async function postNewSalesforceOrder(orderDetails){
 
     var postOrderResult = []
 
-    var data = {}
+    var data = orderDetails
 
     const headers = {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        'Accept': '*/*'
     }
 
     // await axios.post('http://localhost:5000/api/getAllSalesforceProducts',params)
@@ -52,12 +53,14 @@ export async function postNewSalesforceOrder( orderItems ){
         headers : headers
     })
     .then(function (response) {
+        console.log('RESPONSE HEADERS >>> ', response.headers)
         postOrderResult = response.data
     })
     .catch(function (error) {
         postOrderResult = error
-        console.log('Error al ejecutar el request[getProducts]:', error);
+        
+        console.log('Error al ejecutar el request[postOrderDetails]:', error);
     })
 
-    return postOrderResult = []
+    return postOrderResult
 }

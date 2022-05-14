@@ -58,26 +58,28 @@
                         <div class="row">
                             <div class="form-group col-md-6 col-sm-6 mt-3">
                                 <label for="addres1">Address 1</label>
-                                <input type="text" class="form-control" id="addres1"  placeholder="">
+                                <input type="text" class="form-control" id="addres1"  placeholder="" v-model="shippingAddres1">
                             </div>
                             <div class="form-group col-md-6 col-sm-6 mt-3">
                                 <label for="addres2">Address 2</label>
-                                <input type="text" class="form-control" id="addres2" placeholder="">
+                                <input type="text" class="form-control" id="addres2" placeholder="" v-model="shippingAddres2">
                             </div>
                         </div>
                         <div class="row"> 
                             <div class="form-group col-md-6 col-sm-6 mt-3">
                                 <label for="state">State</label>
-                                <input type="text" class="form-control" id="state" placeholder="">
+                                <input type="text" class="form-control" id="state" placeholder="" v-model="shippingAddresState">
                             </div>
                             <div class="form-group col-md-6 col-sm-6 mt-3">
                                 <label for="postalCode">Postal Code</label>
-                                <input type="text" class="form-control" id="postalCode" placeholder="">
+                                <input type="text" class="form-control" id="postalCode" placeholder="" 
+                                v-model="shippingAddresPostalCode">
                             </div>
                         </div>                                                
                         <div class="form-group mt-3 mb-3">
                             <label for="speciaIndications">Special Indications</label>
-                            <textarea class="form-control" id="speciaIndications" rows="3"></textarea>
+                            <textarea class="form-control" id="speciaIndications" rows="3"
+                            v-model="shippingAddresSpecialInications"></textarea>
                         </div>  
                     </div>
                     </div>
@@ -135,32 +137,32 @@
                                 <li class="nav-item">
                                     <a class="nav-link" @click="selectPaymentMethod('bankTransfer')" v-bind:class="{ active: paymentMethodSelected === 'bankTransfer' }"
                                     >Bank Transfer</a>
-                                </li>                        
+                                </li>
                             </ul>
                             <div class="col-md-12 mb-5" v-if="paymentMethodSelected == 'CreditCard'">
 
                                 <div class="row mt-5">
                                     <div class="col-md-6">
-                                        <input id="ccn" type="tel" inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="19" placeholder="Your credit card number here"  class="form-control">
+                                        <input id="ccn" type="tel" inputmode="numeric" pattern="[0-9\s]{13,19}" autocomplete="cc-number" maxlength="19" placeholder="Your credit card number here"  class="form-control" v-model="creditCard_Number">
                                     </div>
                                     <div class="col-md-2">
-                                        <input type="number" maxlength="4" class="form-control" placeholder="cvv">
+                                        <input type="number" maxlength="3" class="form-control" placeholder="cvv" v-model="creditCard_CVV">
                                     </div>
                                     <div class="col-md-4">
-                                        <input type="month" id="start" name="start" min="2022-03" value="2022-03" class="form-control">
+                                        <input type="month" id="start" name="start" min="2022-03" value="2022-03" class="form-control" v-bind="creditCard_ExpirationDate">
                                     </div>
                                 </div>
                             </div>
                             <div class="col-md-12" v-if="paymentMethodSelected == 'COD'">
                                 
-                                <button class="btn btn-primary btn-large mb-5 mt-5">I'll pay when i reive it!</button>
+                                <button class="btn btn-primary btn-large m-5">I'll pay when i reive it!</button>
 
                             </div>
                             <div class="col-md-12" v-if="paymentMethodSelected == 'paypal'">
-                                <p> Coming soon you'll have Paypal available! </p> 
+                                <p class="m-5"> Coming soon you'll have Paypal available! </p> 
                             </div>
                             <div class="col-md-12" v-if="paymentMethodSelected == 'bankTransfer'">
-                                <p> Coming soon you'll have BankTransfer available! </p>
+                                <p class="m-5"> Coming soon you'll have BankTransfer available! </p>
                             </div>                                                        
                         </div>
                     </div>
@@ -204,7 +206,7 @@
               </div>
                 <!-- OrderNow Button -->   
               <div class="col-md-12 mt-5 mb-5">
-                  <button class="btn btn-outline-primary btn-block">Order Now!</button>
+                  <button class="btn btn-outline-primary btn-block" @click="executeOrderSubmit()">Order Now!</button>
               </div>
           </div>
           <!-- Totals -->
@@ -249,6 +251,9 @@
 import cartComponent from '../components/cartComponent.vue'
 import { mapActions, mapMutations,  mapGetters, mapState, createNamespacedHelpers } from 'vuex'
 
+//Importar helpers
+import {postNewSalesforceOrder} from '../Helpers/Helper'
+
 export default {
     name: 'checkoutComponent',
     components: {
@@ -260,7 +265,18 @@ export default {
             shipmentCost : 14,
             taxAmount : Math.floor(Math.random() * 11),
             aditionalCharge : Math.floor(Math.random() * 11),
-            paymentMethodSelected: ''
+            paymentMethodSelected: '',
+            shippingAddres1: '',
+            shippingAddres2: '',
+            shippingAddresState: '',
+            shippingAddresPostalCode: '',
+            shippingAddresSpecialInications: '',
+            creditCard_Number: '',
+            creditCard_CVV:'',
+            creditCard_ExpirationDate:'',
+            cashOndelivery_Flag: false,
+            creditCard_Flag: false,
+
         }
     },
     computed:{
@@ -277,6 +293,11 @@ export default {
             return subTotalSummary
         }
     },
+    mounted(){
+        var e = document.getElementById("selectOption_quantity");
+        var pickedQuantity = parseInt(e.value, 10);
+        this.cartPickedQuantity = pickedQuantity
+    },
     methods:{
          ...mapMutations(['mutationAddItemCart', 'mutationUpdateCartItem','removeItemFromCart']),
         onChange(event, item){
@@ -287,15 +308,50 @@ export default {
         },
         selectPaymentMethod( paymentOption ){
             console.log('payment method selected: ', paymentOption)
+            
             this.paymentMethodSelected = paymentOption
+            
+            // this.paymentMethodSelected == 'CreditCard' ? this.creditCard_Flag = true : this.creditCard_Flag = false
+            
+            // this.paymentMethodSelected == 'COD' ? this.cashOndelivery_Flag = true : this.cashOndelivery_Flag = false
+
             console.log('Cambio: ', this.paymentMethodSelected)
+            // console.log('CreditCard_FLAG: ', this.creditCard_Flag, ' COD_FLAG: ', this.cashOndelivery_Flag)
+        },
+        executeOrderSubmit(){
+            console.log('Starting Order Submit Process...')
+            
+            let creditCardDetails = {
+                'creditCardNumber': this.creditCard_Number,
+                'creditCardCVV': this.creditCard_CVV,
+                'creditCardExpirationDate': this.creditCard_ExpirationDate,
+            }
+
+            var orderDetails = {
+                "shippingDetails":{
+                    'shippingAddress1':this.shippingAddres1,
+                    'shippingAddres2':this.shippingAddres2,
+                    'shippingState':this.shippingAddresState,
+                    'shippingPostalCode':this.shippingAddresPostalCode,
+                    'shippingAddresSpecialInications':this.shippingAddresSpecialInications,
+                },
+                "PaymentDetails":{
+                    "selectedPaymentMethod" : this.selectedPaymentMethod,
+                }
+            }
+
+            if( this.selectedPaymentMethod != 'COD' ){
+                orderDetails.PaymentDetails.creditCardDetails = creditCardDetails
+            }
+
+            orderDetails.productsSelected = JSON.parse(JSON.stringify(this.cart))
+
+            console.log('Datos seleccionados : ', orderDetails )
+            orderDetails = {hello : "World"}
+            
+
+            console.log(postNewSalesforceOrder(orderDetails))
         }
-        
-    },
-    mounted(){
-        var e = document.getElementById("selectOption_quantity");
-        var pickedQuantity = parseInt(e.value, 10);
-        this.cartPickedQuantity = pickedQuantity
     }
 }
 </script>

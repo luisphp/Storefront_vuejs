@@ -59,7 +59,7 @@
                 <div class="col-md-1 col-sm-1 p-0">
                     <div class="d-flex justify-content-center">
                         <button type="button" class="btn btn-sm btn-primary drop"
-                        @click="goToCart()" 
+                        @click="goToCart()" @mouseover="showMiniCart()" @mouseleave="notShowMiniCart()"
                         >
                         
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="currentColor" class="bi bi-cart3" viewBox="0 0 16 16">
@@ -71,9 +71,9 @@
                 </div>
             </div>                                    
         </div>
-    </div>
-    <div v-show="showCartElements">
-        <mini-cart-component></mini-cart-component>
+        <div class="customPosition" :style="{visibility: showMore ? 'visible' : 'hidden'}" @mouseover="showMiniCart()" @mouseleave="notShowMiniCart()">
+            <mini-cart-component></mini-cart-component>
+        </div>        
     </div>
 </template>
 
@@ -85,7 +85,8 @@ export default {
     data(){
         return{
             searchInput : '',
-            showCartElements: false
+            showCartElements: false,
+            showMore : false,
         }
     },
     computed:{
@@ -114,7 +115,14 @@ export default {
         },
         goToCart(){
             this.$router.push({name: 'Cart'})
-        }
+        },
+        showMiniCart(){
+                console.log('Showing mini cart...')
+                this.showMore = true
+            },
+        notShowMiniCart(){
+                this.showMore = false
+            }
     },
     components:{
         miniCartComponent
@@ -130,5 +138,13 @@ export default {
     font-family: 'Playfair Display', serif;
     font-size: 23px;
     cursor: pointer;
+}
+
+.customPosition{
+    position: fixed;
+    margin-top: 0;
+    margin-top: -1px;
+    width: 500px;
+    margin-left: 22rem;
 }
 </style>

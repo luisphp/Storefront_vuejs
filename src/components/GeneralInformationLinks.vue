@@ -101,7 +101,7 @@
                         </div>
                         <div class="mt-2">
                             <div class="col-md-12 p-1">
-                                <button class="btn col-md-12 btn-success">+Cart</button>
+                                <button class="btn col-md-12 btn-success" @click="addToCart(item)">+Cart</button>
                             </div>
                             <div class="col-md-12 p-1">
                                 <button class="btn col-md-12 btn-primary" @click="goToDetails(item)">Details</button>
@@ -171,7 +171,8 @@
                         </div>
                         <div class="mt-2">
                             <div class="col-md-12 p-1">
-                                <a href="#" class="btn col-md-12 btn-success">+Cart</a>
+                                <button class="btn col-md-12 btn-success"
+                                @click="addToCart(item)">+Cart</button>
                             </div>
                             <div class="col-md-12 p-1">
                                 <a href="#" class="btn col-md-12 btn-primary" @click="goToDetails(item)">Details</a>
@@ -209,6 +210,7 @@
 </template>
 
 <script>
+import { Console } from 'console'
 import {mapState, mapMutations, mapActions} from 'vuex'
 
 export default {
@@ -220,37 +222,45 @@ export default {
         }
     },
     mounted(){
-        // this.accionCallAPI_HotSellProducts()
     },
     methods: {
         ...mapActions(['actionSetTopProducts']),
-        ...mapMutations(['mutationSetSelectedItem']),
-        // showInfo(){
-        //     console.log('Hiciste click en el banner.')
-        // },
-        // calculateDiscount(price, discount){
-        //     let result
-        //     result = 0
-
-        //     return result
-        // }
+        ...mapMutations(['mutationSetSelectedItem','mutationAddItemToCart']),
         goToDetails(item){
         var itemId = item.Id
         console.log('itemId: ',item.Id)
         //    this.$router.push({ path: `/productDetails/${itemId}` })
         this.mutationSetSelectedItem(item)
         this.$router.push({ name: 'ProductDetails', params: { itemId } })
+        },
+        addToCart(item){
+            //console.log('Selected Item : ', item)
+            item.quantity = 1
+
+            // // this.cart.push(itemToCart);
+            this.mutationAddItemToCart(item)
+
+
+            console.log('Cart :', JSON.parse(JSON.stringify(this.cart)))
         }
     },
     computed: {
-        ...mapState(['hotSaleProducts', 'recentProducts']),
+        ...mapState(['hotSaleProducts', 'recentProducts', , 'cart']),
         ...mapState(['getAllSalesforceProductsModule'], 'allSalesforceProducts'),
         ...mapState(['newProducts', 'selectedItem'])
     },
     beforeMount(){
 
         this.actionSetTopProducts()
+        console.log('Estamos preparando tu app...')
         
+    },
+    filters: {
+        truncate: function(data,num){
+            const reqdString = 
+              data.split("").slice(0, num).join("");
+            return reqdString;
+        }
     }
 }
 </script>
