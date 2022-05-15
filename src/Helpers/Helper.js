@@ -49,7 +49,8 @@ export async function postNewSalesforceOrder(orderDetails){
     }
 
     // await axios.post('http://localhost:5000/api/getAllSalesforceProducts',params)
-    await axios.post('http://localhost:5000/api/postNewSalesforceOrder', data , {
+    // await axios.post('http://localhost:5000/api/postNewSalesforceOrder', data , {
+    await axios.post('https://salesforce-vuejs-commerce.herokuapp.com/api/postNewSalesforceOrder', data , {
         headers : headers
     })
     .then(function (response) {
