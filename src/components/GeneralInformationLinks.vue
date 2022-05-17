@@ -83,67 +83,184 @@
         <hr>
     </div>
     <div class="row" >
-        <!-- <div class="card col-md-3 m-4 bg-dark text-white" v-for="item in hotSaleProducts" key="item.id">
-            <img class="card-img-top p-0" :src=item.main_image alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">{{item.name}}</h5>
-                <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
-            </div>
-        </div> -->
-        <div class="col-md-3" v-for="item in hotSaleProducts" key="item.id">
+    <div class="col-md-3" v-for="item in hotSaleProducts" key="item.id">
             <div class="d-flex justify-content-center">
-                <div class="card col-md-10 m-3" >
-                    <img class="card-img-top" :src=item.main_image alt="Card image cap">
+                <div class="card col-md-12 mx-auto" style="max-height: 500px">
+                    <div class="col-md-12 col-sm-12 mx-auto" style="max-height: 300px">
+                        <img class="img-fluid mx-auto d-block bg-primary" :src=item.image_url__c alt="Card image cap" style="max-height: 250px">
+                    </div>
                     <div class="card-body">
-                        <h5 class="card-title">{{item.name}}</h5>
-                        <p class="card-text"><strong>${{item.price}}</strong></p>
-                        <p class="card-text"><del>$ {{ calculateDiscount(item.price, item.discount) }}</del></p> <span>
-                            {{item.discount}}%
-                        </span>
-                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                        <h5 class="card-title text-truncate">{{item.Name}}</h5>
+                        <div class="row mt-2">
+                            <div class="col-md-4 mx-auto">
+                                <del>$ {{item.Cost__c}}</del>
+                            </div>
+                            <div class="col-md-7 mx-auto">
+                                <strong>${{item.PricebookEntries.records[0].UnitPrice}}</strong>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <div class="col-md-12 p-1">
+                                <button class="btn col-md-12 btn-success" @click="addToCart(item)">+Cart</button>
+                            </div>
+                            <div class="col-md-12 p-1">
+                                <button class="btn col-md-12 btn-primary" @click="goToDetails(item)">Details</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        <!-- <div class="col-md-4 bg-warning">
+    </div>
+</div>
+
+<!-- Favorite brands -->
+<div class="container mt-5">
+    <div class="">
+        <h3>Your favorite brands</h3>
+        <hr>
+    </div>
+    <div class="row" >
+        <div class="col-md-3">
             <div class="d-flex justify-content-center">
-                Tablets
+                <div class="card col-md-12 m-3" >
+                    <img alt="brand_logo" src="../assets/brand_logos/Asus_brand.png">
+                </div>
             </div>
         </div>
-        <div class="col-md-4 bg-secondary">
+        <div class="col-md-3">
             <div class="d-flex justify-content-center">
-                Tablets
+                <div class="card col-md-12 m-3" >
+                    <img alt="brand_logo" src="../assets/brand_logos/Sony_brand.png">
+                </div>
             </div>
-        </div> -->
+        </div>
+        <div class="col-md-6">
+            <div class="d-flex justify-content-center">
+                <div class="card col-md-12 m-3" >
+                    <img alt="brand_logo" src="../assets/brand_logos/Xiaomi_brand.png">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Los mas reciente -->
+<div class="container mt-5 mb-5">
+    <div class="">
+        <h3>New in store</h3>
+        <!-- new Products {{newProducts}} -->
+        <hr>
+    </div>
+    <div class="row" >
+        <div class="col-md-3" v-for="item in recentProducts" key="item.id">
+            <div class="d-flex justify-content-center">
+                <div class="card col-md-12 mx-auto" style="max-height: 500px">
+                    <div class="col-md-12 col-sm-12 mx-auto" style="max-height: 300px">
+                        <img class="img-fluid mx-auto d-block bg-primary" :src=item.image_url__c alt="Card image cap" style="max-height: 250px">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title text-truncate">{{item.Name}}</h5>
+                        <div class="row mt-2">
+                            <div class="col-md-4 mx-auto">
+                                <del>$ {{item.Cost__c}}</del>
+                            </div>
+                            <div class="col-md-7 mx-auto">
+                                <strong>${{item.PricebookEntries.records[0].UnitPrice}}</strong>
+                            </div>
+                        </div>
+                        <div class="mt-2">
+                            <div class="col-md-12 p-1">
+                                <button class="btn col-md-12 btn-success"
+                                @click="addToCart(item)">+Cart</button>
+                            </div>
+                            <div class="col-md-12 p-1">
+                                <a href="#" class="btn col-md-12 btn-primary" @click="goToDetails(item)">Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="bg-light">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-4 mt-5">
+                <div class="d-flex justify-content-center">
+                    ¡Hey! get the latest news by our newsletter
+                </div>
+            </div>
+            <div class="col-md-4 mt-5">
+                <div class="d-flex justify-content-center">
+                    <input class="form-control form-control-sm" type="text" placeholder="Your email here">
+                </div>
+            </div>        
+            <div class="col-md-4 mt-5 mb-5">
+                <!-- <div class="d-flex justify-content-center"> -->
+                    <button class="btn btn-sm btn-primary">Notifiy Me!</button>
+                <!-- </div> -->
+            </div>        
+        </div>
     </div>
 </div>
 </template>
 
 <script>
+import { Console } from 'console'
 import {mapState, mapMutations, mapActions} from 'vuex'
 
 export default {
 
     name: 'GeneralInformationLinks',
-
+    data(){
+        return{
+            products : []
+        }
+    },
     mounted(){
-        this.accionCallAPI_HotSellProducts()
     },
     methods: {
-        ...mapActions(['accionCallAPI_HotSellProducts']),
-        showInfo(){
-            console.log('Hiciste click en el banner.')
+        ...mapActions(['actionSetTopProducts']),
+        ...mapMutations(['mutationSetSelectedItem','mutationAddItemToCart']),
+        goToDetails(item){
+        var itemId = item.Id
+        console.log('itemId: ',item.Id)
+        //    this.$router.push({ path: `/productDetails/${itemId}` })
+        this.mutationSetSelectedItem(item)
+        this.$router.push({ name: 'ProductDetails', params: { itemId } })
         },
-        calculateDiscount(price, discount){
-            let result
-            result = 0
+        addToCart(item){
+            //console.log('Selected Item : ', item)
+            item.quantity = 1
 
-            return result
+            // // this.cart.push(itemToCart);
+            this.mutationAddItemToCart(item)
+
+
+            console.log('Cart :', JSON.parse(JSON.stringify(this.cart)))
         }
     },
     computed: {
-        ...mapState(['hotSaleProducts'])
+        ...mapState(['hotSaleProducts', 'recentProducts', , 'cart']),
+        ...mapState(['getAllSalesforceProductsModule'], 'allSalesforceProducts'),
+        ...mapState(['newProducts', 'selectedItem'])
+    },
+    beforeMount(){
+
+        this.actionSetTopProducts()
+        console.log('Estamos preparando tu app...')
+        
+    },
+    filters: {
+        truncate: function(data,num){
+            const reqdString = 
+              data.split("").slice(0, num).join("");
+            return reqdString;
+        }
     }
 }
 </script>
